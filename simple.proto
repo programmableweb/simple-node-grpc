@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package simplegrpc;
+
+option objc_class_prefix = "SIMPLEGRPC";
+
+/* Describes an array of floats to be processed */
+message Request {
+    repeated double numbers = 1;
+}
+
+/* Describes the result of processing */
+message Response {
+    double result = 1;
+}
+
+service SimpleService {
+    rpc Add (Request) returns (Response) {
+    }
+
+    rpc Subtract (Request) returns (Response) {
+    }
+
+    rpc Multiply (Request) returns (Response) {
+    }
+
+    rpc Divide (Request) returns (Response) {
+    }
+}
