@@ -40,10 +40,10 @@ async function divide(call, callback) {
 }
 
 /**
- * Starts an RPC server that receives requests for the Simpleservice at the
+ * Starts an RPC server that receives requests for the SimpleService at the
  * sample server port
  */
-async function main()  {
+function main()  {
     const implementations = {};
     implementations.add = add;
     implementations.subtract = subtract;
@@ -58,6 +58,6 @@ async function main()  {
     console.log({message: `Started gRPC Server on port ${PORT}`, startedTime: new Date()});
 }
 
-return main();
+main();
 
 module.exports = {server};

@@ -4,7 +4,8 @@
   "description": "A project that demonstrates the essentials of writing  gRPC API under node.js",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "mocha test/basic-grpc-tests.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,9 @@
   "dependencies": {
     "@grpc/proto-loader": "^0.5.3",
     "grpc": "^1.24.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1"
   }
 }
