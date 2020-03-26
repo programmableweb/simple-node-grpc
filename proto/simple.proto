@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package simplegrpc;
 
-option objc_class_prefix = "SIMPLEGRPC";
-
 /* Describes an array of floats to be processed */
 message Request {
     repeated double numbers = 1;
