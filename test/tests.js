@@ -7,6 +7,7 @@ const expect = require('chai').expect;
 const describe = require('mocha').describe;
 const it = require('mocha').it;
 const after = require('mocha').after;
+const faker = require('faker');
 
 const packageDefinition = protoLoader.loadSync(
     PROTO_PATH,
@@ -89,6 +90,29 @@ describe('Basic gRPC Tests: ', () => {
 
         const request = {numbers: [25, 7, 19, 63]};
         client.Divide(request, callback);
-    })
+    });
+
+    it('Can call Repeat', function (done) {
+        const limit = 10;
+        let currentIdx = 0;
+        const value  = faker.lorem.words(2);
+        const call = client.Repeat({value, limit});
+        call.on('data', function (result) {
+            expect(result).to.be.an('object');
+            expect(result.value).to.equal(value);
+            expect(result.counter).to.equal(currentIdx);
+            currentIdx++;
+        });
+        call.on('end', function () {
+            done();
+        });
+        call.on('error', function (e) {
+            console.log(error);
+            done(error);
+        });
+        call.on('status', function (status) {
+            console.log(status);
+        });
+    });
 
 });

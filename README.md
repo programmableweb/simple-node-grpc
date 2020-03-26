@@ -67,9 +67,23 @@ Install the packages.
 
 `npm install`
 
+## Running the Simple Server unit tests
+
+To run the unit test for this project execute the following command:
+
+`npm test`
+
+## Running the Simple Server
+
 The start the server.
 
-`node index.js`
+`node server.js`
+
+or
+
+`npm start`
+
+
 
 ## The `.proto` File
 
