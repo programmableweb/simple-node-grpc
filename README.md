@@ -1,20 +1,21 @@
-# Simple Service
+# Simple gRPC Server
 
 This project is a demonstration gRPC API written in Node.JS.
 
 ## Description
 
-The `Simple Service` is a gPRC API that publishes four functions:
+The `Simple Service` is a gPRC API that publishes five functions:
 
-* add
-* subtract
-* multiply
-* divide
+* Add
+* Subtract
+* Multiply
+* Divide
+* Repeat
 
-Each function take the message, `Request` as an argument. `Request` is
+The functions, `Add`, `Subtract`, `Multiply` and `Divide` take the message, `Request` as an argument. `Request` is
 an array of floating point numbers.
  
-The following is an example of a `Request Message`:
+The following is an example of a `Request` message:
 
 ```json
 {
@@ -24,9 +25,9 @@ The following is an example of a `Request Message`:
 }
 ```
  
-Each function will process all the numbers in the array in order.
+Each function, except for `Repeat` will process all the numbers in the array in order.
 
-Each function in the API returns a message named `Response`. The following is an example of a 
+The functions, `Add`, `Subtract`, `Multiply` and `Divide` in the API returns a message named `Response`. The following is an example of a 
 `Response` message:
 
 ```json
@@ -35,6 +36,31 @@ Each function in the API returns a message named `Response`. The following is an
 }
 ```
 
+The function, `Repeat` takes a message of type, `RepeatRequest` which is defined like so:
+
+```proto
+/* Describes the request for a repeated value
+  @value, the string to repeat
+  @limit, the number of times to repeat
+*/
+message RepeatRequest {
+    string value = 1;
+    int32 limit = 2;
+}
+```
+and returns a stream of messages of type, `RepeatResponse` which is defined like so:
+
+```proto
+/* Describes the response for a repeated value
+ @value, the repeated string
+ @counter, the current position of the message in the
+           response stream
+ */
+message RepeatResponse {
+    string value = 1;
+    int32 counter = 2;
+}
+```
 ## Installation
 
 Install the packages.
@@ -45,24 +71,42 @@ The start the server.
 
 `node index.js`
 
-
 ## The `.proto` File
 
 ```proto
 syntax = "proto3";
-
+    
 package simplegrpc;
-
+    
 option objc_class_prefix = "SIMPLEGRPC";
-
+    
 /* Describes an array of floats to be processed */
 message Request {
-    repeated double numbers = 1;
+repeated double numbers = 1;
 }
-
-/* Describes the result of processing the submitted array of floats */
+    
+/* Describes the result of processing */
 message Response {
-    double result = 1;
+double result = 1;
+}
+        
+/* Describes the request for a repeated value
+  @value, the string to repeat
+  @limit, the number of times to repeat
+*/
+message RepeatRequest {
+    string value = 1;
+    int32 limit = 2;
+}
+        
+/* Describes the response for a repeated value
+ @value, the repeated string
+ @counter, the current position of the message in the
+           response stream
+ */
+message RepeatResponse {
+    string value = 1;
+    int32 counter = 2;
 }
 
 service SimpleService {
@@ -76,6 +120,9 @@ service SimpleService {
     }
 
     rpc Divide (Request) returns (Response) {
+    }
+
+    rpc Repeat (RepeatRequest) returns (stream RepeatResponse) {
     }
 }
 ```

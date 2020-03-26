@@ -1,6 +1,6 @@
-const SERVER_URL = 'localhost:50051';
-const PROTO_PATH = process.cwd() + '/simple.proto';
-let {server} = require("../index");
+const SERVER_URL = 'localhost:8080';
+const PROTO_PATH = process.cwd() + '/proto/simple.proto';
+let {server} = require("../server");
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const expect = require('chai').expect;
