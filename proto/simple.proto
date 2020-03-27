@@ -13,11 +13,11 @@ message Response {
 }
 
 /* Describes the request for a repeated value
- @value, the string to repeat
+ @data, the string to repeat
  @limit, the number of times to repeat
  */
 message RepeatRequest {
-    string value = 1;
+    string data = 1;
     int32 limit = 2;
 }
 
@@ -26,7 +26,7 @@ message RepeatRequest {
  @limit, the ordinal position in the response stream
  */
 message RepeatResponse {
-    string value = 1;
+    string data = 1;
     int32 counter = 2;
 }
 

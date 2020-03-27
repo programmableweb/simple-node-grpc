@@ -41,7 +41,7 @@ function divide(call, callback) {
 
 function repeat(call) {
     for(let i = 0; i< call.request.limit;i++){
-        call.write({value: call.request.value, counter: i});
+        call.write({data: call.request.data, counter: i});
     }
     //close down the stream the traversal completes
     call.end();

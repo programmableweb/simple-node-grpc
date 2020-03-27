@@ -95,11 +95,11 @@ describe('Basic gRPC Tests: ', () => {
     it('Can call Repeat', function (done) {
         const limit = 10;
         let currentIdx = 0;
-        const value  = faker.lorem.words(2);
-        const call = client.Repeat({value, limit});
+        const data  = faker.lorem.words(2);
+        const call = client.Repeat({data, limit});
         call.on('data', function (result) {
             expect(result).to.be.an('object');
-            expect(result.value).to.equal(value);
+            expect(result.data).to.equal(data);
             expect(result.counter).to.equal(currentIdx);
             currentIdx++;
         });
