@@ -4,8 +4,9 @@
   "description": "A project that demonstrates the essentials of writing  gRPC API under node.js",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/tests.js",
-    "start": "node server.js"
+    "test": "nyc mocha test/tests.js",
+    "start": "node server.js",
+    "coverage": "nyc --reporter=lcov --reporter=text-lcov npm test && node testdocserver.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,9 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^7.1.1"
+    "mocha": "^7.1.1",
+    "nyc": "^14.1.1",
+    "globby": "^10.0.1",
+    "lnk": "^1.1.0"
   }
 }
