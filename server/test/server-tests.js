@@ -24,12 +24,31 @@ const simplegrpc = grpc.loadPackageDefinition(packageDefinition).simplegrpc;
 const client = new simplegrpc.SimpleService(SERVER_URL,
     grpc.credentials.createInsecure());
 
+const randomIntFromInterval = (min,max) => {
+    return Math.floor(Math.random()*(max-min+1)+min);
+};
 
 describe('Basic gRPC Tests: ', () => {
 
-    after(async function() {
-        await server.forceShutdown();
+
+    after(function() {
+        server.forceShutdown();
         console.log({message: `gRPC server shutdown at ${new Date()}`})
+    });
+
+    it('Can Ping', function (done) {
+        function callback(error, result) {
+            if (error) {
+                console.log(error);
+                done(error);
+            }
+            expect(result).to.be.an('object');
+            expect(result.result).to.equal(data);
+            done()
+        }
+        const data  = faker.lorem.words(2);
+        const request = {data};
+        client.Ping(request, callback);
     });
 
     it('Can Add', function (done) {
@@ -45,7 +64,7 @@ describe('Basic gRPC Tests: ', () => {
 
         const request = {numbers: [2, 3, 4, 5]};
         client.Add(request, callback);
-    })
+    });
 
     it('Can Subtract ', function (done) {
         function callback(error, result) {
@@ -60,7 +79,7 @@ describe('Basic gRPC Tests: ', () => {
 
         const request = {numbers: [102, 3, 4101, 19]};
         client.Subtract(request, callback);
-    })
+    });
 
     it('Can Multiple ', function (done) {
         function callback(error, result) {
@@ -75,7 +94,7 @@ describe('Basic gRPC Tests: ', () => {
 
         const request = {numbers: [102, 3, 4101, 19]};
         client.Multiply(request, callback);
-    })
+    });
 
     it('Can Divide', function (done) {
         function callback(error, result) {
@@ -84,7 +103,7 @@ describe('Basic gRPC Tests: ', () => {
                 done(error);
             }
             expect(result).to.be.an('object');
-            expect(result.result).to.equal(.000004773839360305525);
+            expect(result.result).to.equal(.002983649600190954);
             done()
         }
 
@@ -92,27 +111,44 @@ describe('Basic gRPC Tests: ', () => {
         client.Divide(request, callback);
     });
 
-    it('Can call Repeat', function (done) {
-        const limit = 10;
-        let currentIdx = 0;
-        const data  = faker.lorem.words(2);
-        const call = client.Repeat({data, limit});
-        call.on('data', function (result) {
+    it('Can Ping', function (done) {
+        function callback(error, result) {
+            if (error) {
+                console.log(error);
+                done(error);
+            }
             expect(result).to.be.an('object');
-            expect(result.data).to.equal(data);
-            expect(result.counter).to.equal(currentIdx);
-            currentIdx++;
+            expect(result.result).to.equal(data);
+            done()
+        }
+
+        const data = faker.lorem.words(3);
+        client.Ping({data}, callback);
+    });
+
+    it('Can Repeat', function (done) {
+        const value = faker.lorem.words(3);
+        const limit = randomIntFromInterval(1,100);
+        let cnt = 0;
+        const call = client.Repeat({value,limit});
+        call.on('data', function (response) {
+            expect(response).to.be.an('object');
+            expect(response.value).to.equal(value);
+            expect(response.counter).to.equal(cnt);
+            cnt++;
         });
         call.on('end', function () {
+            expect(cnt).to.equal(limit);
             done();
         });
         call.on('error', function (e) {
-            console.log(error);
-            done(error);
+            done(e);
         });
         call.on('status', function (status) {
-            console.log(status);
+            console.log(`${cnt} messages returned`);
         });
+
     });
+
 
 });

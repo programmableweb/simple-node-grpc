@@ -34,14 +34,18 @@ function subtract(call, callback) {
 
 function divide(call, callback) {
     const input = call.request.numbers;
-    const result = input.reduce((a, b) => a / b, 1);
+    const result = input.reduce((a, b) => a / b);
     callback(null, {result});
+}
+
+function ping(call, callback) {
+    callback(null, {result: call.request.data} );
 }
 
 
 function repeat(call) {
     for(let i = 0; i< call.request.limit;i++){
-        call.write({data: call.request.data, counter: i});
+        call.write({value: call.request.value, counter: i});
     }
     //close down the stream the traversal completes
     call.end();
@@ -58,6 +62,7 @@ function main()  {
     implementations.multiply = multiply;
     implementations.divide = divide;
     implementations.repeat = repeat;
+    implementations.ping = ping;
 
     server = new grpc.Server();
     server.addService(simple_proto.SimpleService.service, implementations);
