@@ -73,11 +73,11 @@ describe('Basic gRPC Tests: ', () => {
                 done(error);
             }
             expect(result).to.be.an('object');
-            expect(result.result).to.equal(-4225);
+            expect(result.result).to.equal(190);
             done()
         }
 
-        const request = {numbers: [102, 3, 4101, 19]};
+        const request = {numbers: [200,7,3]};
         client.Subtract(request, callback);
     });
 

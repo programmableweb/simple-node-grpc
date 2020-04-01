@@ -28,7 +28,7 @@ function multiply(call, callback) {
 }
 function subtract(call, callback) {
     const input = call.request.numbers;
-    const result = input.reduce((a, b) => a - b, 0);
+    const result = input.reduce((a, b) => a - b);
     callback(null, {result});
 }
 
