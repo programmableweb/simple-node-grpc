@@ -20,7 +20,7 @@ The `Simple Service` is a gPRC API that publishes four functions:
 * `subtract`, subtracts an array of floating point numbers passed to it, calculated according to order in the array
 * `multiply`, multiplies an array of floating point numbers passed to it, calculated according to order in the array
 * `divide`, divides an array of floating point numbers passed to it, calculated according to order in the array
-* `repeat`, repeats a submitted string as a stream. The number of emissions in the stream is determined by the parameter, `limit` in the message, `RepeatRequest`.
+* `chatter`, chatters a submitted string as a stream. The number of emissions in the stream is determined by the parameter, `limit` in the message, `ChatterRequest`.
 * `ping`, pings back a submitted string 
 
 For the details of the request and reponse message for each function, read the section, **The `.proto` File**, the follows the section **tl;dr** below.
@@ -68,20 +68,20 @@ message Response {
     double result = 1;
 }
 
-/* Describes the request for a repeated value
- @value, the string to repeat
- @limit, the number of times to repeat
+/* Describes the request for a chattered value
+ @value, the string to chatter
+ @limit, the number of times to chatter
  */
-message RepeatRequest {
+message ChatterRequest {
     string value = 1;
     int32 limit = 2;
 }
 
-/* Describes the response for a repeated value
- @value, the repeated string
+/* Describes the response for a chattered value
+ @value, the chattered string
  @counter, the ordinal position in the response stream
  */
-message RepeatResponse {
+message ChatterResponse {
     string value = 1;
     int32 counter = 2;
 }
@@ -111,7 +111,7 @@ service SimpleService {
     rpc Divide (Request) returns (Response) {
     }
 
-    rpc Repeat (RepeatRequest) returns (stream RepeatResponse) {
+    rpc Chatter (ChatterRequest) returns (stream ChatterResponse) {
     }
 
     rpc Ping (PingRequest) returns (PingResponse) {

@@ -7,17 +7,17 @@ const {SimpleServiceClient} = require('./client');
 var argv = require('yargs')
     .usage('Usage: $0 -o [string] - d [array] -m [string] -c 100 [num')
     .example('$0 -o add -d [4,5.5,6]', 'Sums up the numbers in the array [4, 5.5, 6]')
-    .example('$0 -o repeat -m I have a secret -c 100', 'returns the messages, "I have a secret" in a stream of 100 messages')
+    .example('$0 -o chatter -m I have a secret -c 100', 'returns the messages, "I have a secret" in a stream of 100 messages')
     .alias('o', 'operation')
     .alias('d', 'data')
     .alias('m', 'message')
     .alias('c', 'count')
     .alias('u', 'url')
     .default('u', SERVER_URL)
-    .describe('o', 'The operation to perform. Choose from the operations: add, subtract, multiply, divide, repeat, ping')
+    .describe('o', 'The operation to perform. Choose from the operations: add, subtract, multiply, divide, chatter, ping')
     .describe('d', 'The array of numbers to process. Used with the operations, add, subtract, multiply, divide')
-    .describe('m', 'Used with the operation, repeat and ping. The message to transit.')
-    .describe('c', 'Used with the operation, repeat. Indicates the number of messages to return in the stream.')
+    .describe('m', 'Used with the operation, chatter and ping. The message to transit.')
+    .describe('c', 'Used with the operation, chatter. Indicates the number of messages to return in the stream.')
     .describe('u', 'The url of the gRPC server.')
     .demandOption(['o'])
     .help('h')
@@ -31,19 +31,19 @@ const mathCallback = (err, response) => {
     console.log(JSON.stringify(response.result))
 };
 
-const repeatCallback = (err, response) => {
+const chatterCallback = (err, response) => {
     console.log(response)
 };
 
 const argMathError = (op) => {
     console.error(`ERROR: Invalid array provided for operation, ${op}`);
 };
-const argRepeatError = (arr) => {
-    console.error(`ERROR: Invalid parameters provided for operation, Repeat, Invalid parameters, ${JSON.stringify(arr)}`);
+const argChatterError = (arr) => {
+    console.error(`ERROR: Invalid parameters provided for operation, Chatter, Invalid parameters, ${JSON.stringify(arr)}`);
 };
 
 const opError = () => {
-    console.error(`ERROR: Missing operation. Please declare one of the following operations: add, subtract, divide, multiply, repeat, ping`);
+    console.error(`ERROR: Missing operation. Please declare one of the following operations: add, subtract, divide, multiply, chatter, ping`);
 };
 
 const validateArray = (data) => {
@@ -86,12 +86,12 @@ const multiply = (arg) => {
     client.multiply(numbers, mathCallback);
 };
 
-const repeat = (message, count) => {
+const chatter = (message, count) => {
     const arr = [];
     if (typeof message !== 'string') arr.push('message');
     if (typeof count !== 'number') arr.push('count');
-    if (arr.length > 0) {argRepeatError(arr); return;}
-    client.repeat({message, count}, repeatCallback);
+    if (arr.length > 0) {argChatterError(arr); return;}
+    client.chatter({message, count}, chatterCallback);
 };
 
 const ping = (message) => {
@@ -120,8 +120,8 @@ switch (argv.o.toLowerCase()) {
     case('divide'):
         divide(argv.d);
         break;
-    case('repeat'):
-        repeat(argv.m, argv.c);
+    case('chatter'):
+        chatter(argv.m, argv.c);
         break;
     case('ping'):
         ping(argv.m);

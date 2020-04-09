@@ -126,11 +126,11 @@ describe('Basic gRPC Tests: ', () => {
         client.Ping({data}, callback);
     });
 
-    it('Can Repeat', function (done) {
+    it('Can Chatter', function (done) {
         const value = faker.lorem.words(3);
         const limit = randomIntFromInterval(1,100);
         let cnt = 0;
-        const call = client.Repeat({value,limit});
+        const call = client.Chatter({value,limit});
         call.on('data', function (response) {
             expect(response).to.be.an('object');
             expect(response.value).to.equal(value);

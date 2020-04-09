@@ -31,10 +31,10 @@ class SimpleServiceClient {
         this.client.Multiply({numbers}, callback);
     }
 
-    repeat({message, count}, callback){
+    chatter({message, count}, callback){
         const value = message;
         const limit = count;
-        const call = this.client.Repeat({value,limit});
+        const call = this.client.Chatter({value,limit});
         call.on('data', function (response) {
             callback(null,JSON.stringify(response))
         });

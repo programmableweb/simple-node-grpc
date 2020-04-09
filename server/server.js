@@ -43,7 +43,7 @@ function ping(call, callback) {
 }
 
 
-function repeat(call) {
+function chatter(call) {
     for(let i = 0; i< call.request.limit;i++){
         call.write({value: call.request.value, counter: i});
     }
@@ -61,7 +61,7 @@ function main()  {
     implementations.subtract = subtract;
     implementations.multiply = multiply;
     implementations.divide = divide;
-    implementations.repeat = repeat;
+    implementations.chatter = chatter;
     implementations.ping = ping;
 
     server = new grpc.Server();

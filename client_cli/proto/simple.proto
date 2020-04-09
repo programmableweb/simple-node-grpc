@@ -12,20 +12,20 @@ message Response {
     double result = 1;
 }
 
-/* Describes the request for a repeated value
- value, the string to repeat
- limit, the number of times to repeat
+/* Describes the request for a chattered value
+ value, the string to chatter
+ limit, the number of times to chatter
  */
-message RepeatRequest {
+message ChatterRequest {
     string value = 1;
     int32 limit = 2;
 }
 
-/* Describes the response for a repeated value
- value, the repeated string
+/* Describes the response for a chattered value
+ value, the chattered string
  limit, the ordinal position in the response stream
  */
-message RepeatResponse {
+message ChatterResponse {
     string value = 1;
     int32 counter = 2;
 }
@@ -55,7 +55,7 @@ service SimpleService {
     rpc Divide (Request) returns (Response) {
     }
 
-    rpc Repeat (RepeatRequest) returns (stream RepeatResponse) {
+    rpc Chatter (ChatterRequest) returns (stream ChatterResponse) {
     }
 
     rpc Ping (PingRequest) returns (PingResponse) {
