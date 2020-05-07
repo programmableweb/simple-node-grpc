@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package simplegrpc;
+
+/* Describes an array of floats to be processed by
+ a math operation
+ @param numbers, the array of floating point numbers to process
+ */
+message Request {
+    repeated double numbers = 1;
+}
+
+/* Describes the result of processing
+    @param result, a floating point number that is the
+                   the result of the mathematical operation
+*/
+message Response {
+    double result = 1;
+}
+
+/* Describes the request for a chattered value
+ @param chatItem, the string to chatter
+ @param limit, the number of times to chatter
+ */
+message ChatterRequest {
+    string chatItem = 1;
+    int32 limit = 2;
+}
+
+/* Describes the response to a Chatter Request
+ @param  chatItem, the chattered string
+ @param  index, the position of the chatItem in the response stream
+ */
+message ChatterResponse {
+    string chatItem = 1;
+    int32 index = 2;
+}
+
+/* Describes a Blabber request
+   @param blab, the string to blabber repeatedly in a response
+*/
+message BlabberRequest {
+    string blab = 1;
+}
+
+/* Describes the response for a BlabberRequest
+  @param blab, a string to blabber
+  @param index, the position of the blab in the response stream
+ */
+message BlabberResponse {
+    string blab = 1;
+    int32 index = 2;
+}
+
+/* Describes the response from a Ping call
+  @param result, the result of the ping
+*/
+message PingResponse {
+    string result = 1;
+}
+
+/* Describes the request to a Ping call
+  @param data, a string to send to the Ping procedure
+               which will be returned by the Ping
+ */
+message PingRequest {
+    string data = 1;
+}
+
+service SimpleService {
+    rpc Add (Request) returns (Response) {
+    }
+
+    rpc Subtract (Request) returns (Response) {
+    }
+
+    rpc Multiply (Request) returns (Response) {
+    }
+
+    rpc Divide (Request) returns (Response) {
+    }
+
+    rpc Chatter (ChatterRequest) returns (stream ChatterResponse) {
+    }
+
+    rpc Blabber (stream BlabberRequest) returns (stream BlabberResponse) {
+    }
+
+    rpc Ping (PingRequest) returns (PingResponse) {
+    }
+}
