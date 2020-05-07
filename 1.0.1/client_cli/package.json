@@ -1,0 +1,30 @@
+{
+  "name": "simpleservice_cli",
+  "version": "1.0.0",
+  "description": "A command line tool for interacting with the SimpleService gRPC API",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc mocha test/client-tests.js",
+    "start": "node server.js"
+  },
+  "author": "Bob Reselman <reselbob@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "sscli": "./index.js"
+  },
+  "dependencies": {
+    "@grpc/proto-loader": "^0.5.3",
+    "grpc": "^1.24.2",
+    "interval-promise": "^1.4.0",
+    "protobufjs": "^6.9.0",
+    "yargs": "^13.2.4"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "faker": "^4.1.0",
+    "mocha": "^7.1.1",
+    "shelljs": "^0.8.3",
+    "test-console": "^1.1.0",
+    "nyc": "^15.0.0"
+  }
+}

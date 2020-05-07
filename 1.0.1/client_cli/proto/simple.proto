@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package simplegrpc;
+
+/* Describes an array of floats to be processed */
+message Request {
+    repeated double numbers = 1;
+}
+
+/* Describes the result of processing */
+message Response {
+    double result = 1;
+}
+
+/* Describes the request for a chattered value
+ value, the string to chatter
+ limit, the number of times to chatter
+ */
+message ChatterRequest {
+    string chatItem = 1;
+    int32 limit = 2;
+}
+
+/* Describes the response for a chattered value
+ value, the chattered string
+ limit, the ordinal position in the response stream
+ */
+message ChatterResponse {
+    string chatItem = 1;
+    int32 index = 2;
+}
+
+message BlabberRequest {
+    string blab = 1;
+}
+
+message BlabberResponse {
+    string blab = 1;
+    int32 index = 2;
+}
+
+/* Describes the response from a Ping call
+ */
+message PingResponse {
+    string result = 1;
+}
+
+/* Describes the request to a Ping call
+ */
+message PingRequest {
+    string data = 1;
+}
+
+service SimpleService {
+    rpc Add (Request) returns (Response) {
+    }
+
+    rpc Subtract (Request) returns (Response) {
+    }
+
+    rpc Multiply (Request) returns (Response) {
+    }
+
+    rpc Divide (Request) returns (Response) {
+    }
+
+    rpc Chatter (ChatterRequest) returns (stream ChatterResponse) {
+    }
+
+    rpc Blabber (stream BlabberRequest) returns (stream BlabberResponse) {
+    }
+
+    rpc Ping (PingRequest) returns (PingResponse) {
+    }
+}
