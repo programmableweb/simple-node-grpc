@@ -30,4 +30,9 @@ const serializeBlabberResponse = async (response) => {
     return await serializeResponse(response,  "simplegrpc.BlabberResponse")
 };
 
-module.exports = {serializeMathResponse, serializeChatterResponse, serializeBlabberResponse};
+const serializePingResponse = async (response) => {
+    return await serializeResponse(response,  "simplegrpc.PingResponse")
+};
+
+
+module.exports = {serializeMathResponse, serializeChatterResponse, serializeBlabberResponse, serializePingResponse};

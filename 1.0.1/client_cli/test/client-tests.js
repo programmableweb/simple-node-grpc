@@ -33,7 +33,7 @@ describe('Basic Client CLI Tests: ', () => {
     it('Can call Ping on CLI', function (done) {
         const operation = 'add';
         const numbers = [2,2];
-        shell.exec(`node ${filespec} -o ping -m "Hi There"`);
+        shell.exec(`node ${filespec} -o ping -m "Hi There" -v`);
         console.log('\n');
         done();
     })

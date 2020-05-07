@@ -2,7 +2,7 @@
 const SERVER_URL = 'localhost:8080';
 const PROTO_PATH = __dirname + '/proto/simple.proto';
 const {SimpleServiceClient} = require('./client');
-const {serializeMathResponse, serializeChatterResponse, serializeBlabberResponse} = require('./helper');
+const {serializeMathResponse, serializeChatterResponse, serializeBlabberResponse, serializePingResponse} = require('./helper');
 
 
 var argv = require('yargs')
@@ -32,31 +32,40 @@ var argv = require('yargs')
 
 const client = new SimpleServiceClient(argv.u, PROTO_PATH);
 
+const pingCallback = async (err, response) => {
+    if (argv.v) {
+        const r = await serializePingResponse(response);
+        console.log({response, bytes: r})
+    } else {
+        console.log(response);
+    }
+};
+
 const mathCallback = async (err, response) => {
-    if(argv.v){
+    if (argv.v) {
         const r = await serializeMathResponse(response);
-        console.log( {response, bytes: r})
-    }else{
+        console.log({response, bytes: r})
+    } else {
         console.log(response);
     }
     //console.log(JSON.stringify(response.result))
 };
 
 const chatterCallback = async (err, response) => {
-    if(argv.v){
+    if (argv.v) {
         const r = await serializeChatterResponse(response);
-        console.log( {response, bytes: r})
-    }else{
+        console.log({response, bytes: r})
+    } else {
         console.log(response);
     }
 };
 
 const blabberCallback = async (err, response) => {
 
-    if(argv.v){
+    if (argv.v) {
         const r = await serializeBlabberResponse(response);
-        console.log( {response, bytes: r})
-    }else{
+        console.log({response, bytes: r})
+    } else {
         console.log(response);
     }
 };
@@ -87,28 +96,40 @@ const validateArray = (data) => {
 
 const add = (arg) => {
     const arr = validateArray(arg);
-    if (!Array.isArray(arr)) {argMathError('add');return;}
+    if (!Array.isArray(arr)) {
+        argMathError('add');
+        return;
+    }
     const numbers = arr;
     client.add(numbers, mathCallback);
 };
 
 const subtract = (arg) => {
     const arr = validateArray(arg);
-    if (!Array.isArray(arr)) {argMathError('subtract');return;}
+    if (!Array.isArray(arr)) {
+        argMathError('subtract');
+        return;
+    }
     const numbers = arr;
     client.subtract(numbers, mathCallback);
 };
 
 const divide = (arg) => {
     const arr = validateArray(arg);
-    if (!Array.isArray(arr)) {argMathError('divide');return;}
+    if (!Array.isArray(arr)) {
+        argMathError('divide');
+        return;
+    }
     const numbers = arr;
     client.divide(numbers, mathCallback);
 };
 
 const multiply = (arg) => {
     const arr = validateArray(arg);
-    if (!Array.isArray(arr)){argMathError('multiply');return;}
+    if (!Array.isArray(arr)) {
+        argMathError('multiply');
+        return;
+    }
     const numbers = arr;
     client.multiply(numbers, mathCallback);
 };
@@ -117,22 +138,26 @@ const chatter = (message, count) => {
     const arr = [];
     if (typeof message !== 'string') arr.push('message');
     if (typeof count !== 'number') arr.push('count');
-    if (arr.length > 0) {argChatterError(arr); return;}
+    if (arr.length > 0) {
+        argChatterError(arr);
+        return;
+    }
     client.chatter({message, count}, chatterCallback);
 };
 
 const blabber = (message, count) => {
     const arr = [];
     if (typeof message !== 'string') arr.push('message');
-    if (arr.length > 0) {argChatterError(arr); return;}
+    if (arr.length > 0) {
+        argChatterError(arr);
+        return;
+    }
     client.blabber({message, count}, blabberCallback);
 };
 
 const ping = (message) => {
-    const callback = (err, response) => {
-        console.log(`I am pinging the message: ${response.result}.`)
-    }
-    client.ping(message, callback)
+
+    client.ping(message, pingCallback)
 };
 
 if (typeof argv.o !== 'string') {
