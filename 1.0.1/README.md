@@ -6,7 +6,15 @@ Both client CLI tool and server are written in Node.js.
 
 ## General Installation
 
-Copy the latest version of the project's `.proto` file into the both client and server locations by executing the following command:
+**Step 1:** Clone the code from the GitHub respository
+
+`git clone https://github.com/programmableweb/simple-node-grpc.git`
+
+**Step 2:** Navigate to the source code for version `1.0.1`
+
+`cd simple-node-grpc/1.0.1`
+
+**Step 3:** Copy the latest version of the project's `.proto` file into the both client and server locations by executing the following command:
 
 `sh set-protos.sh`
 

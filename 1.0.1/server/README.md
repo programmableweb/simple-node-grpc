@@ -4,6 +4,11 @@ This project is a demonstration gRPC API written in Node.js.
 
 ## Installation
 
+Make sure you are in the working directory for this verion
+
+
+`simple-node-grpc/1.0.1`
+
 Install the packages.
 
 `npm install`
@@ -20,7 +25,8 @@ The `Simple Service` is a gPRC API that publishes four functions:
 * `subtract`, subtracts an array of floating point numbers passed to it, calculated according to order in the array
 * `multiply`, multiplies an array of floating point numbers passed to it, calculated according to order in the array
 * `divide`, divides an array of floating point numbers passed to it, calculated according to order in the array
-* `chatter`, chatters a submitted string as a stream. The number of emissions in the stream is determined by the parameter, `limit` in the message, `ChatterRequest`.
+* `chatter`, chatters a submitted string as a unidirectional stream from server to client. The number of emissions in the stream is determined by the parameter, `limit` in the message, `ChatterRequest`.
+* `blabber`, supports submitting a string to a client side stream. The string is returned in a server side stream. The interactions continue indefinitely until the server is shut down or the client stops sending strings.
 * `ping`, pings back a submitted string 
 
 For the details of the request and reponse message for each function, read the section, **The `.proto` File**, the follows the section **tl;dr** below.
@@ -53,7 +59,7 @@ Each function in the API returns a message named `Response`. The following is an
 
 ## The `.proto` File
 
-```proto
+```
 syntax = "proto3";
 
 package simplegrpc;
@@ -69,21 +75,30 @@ message Response {
 }
 
 /* Describes the request for a chattered value
- @value, the string to chatter
- @limit, the number of times to chatter
+ chatItem, the string to chatter
+ limit, the number of times to chatter
  */
 message ChatterRequest {
-    string value = 1;
+    string chatItem = 1;
     int32 limit = 2;
 }
 
 /* Describes the response for a chattered value
- @value, the chattered string
- @counter, the ordinal position in the response stream
+ value, the chattered string
+ limit, the ordinal position in the response stream
  */
 message ChatterResponse {
-    string value = 1;
-    int32 counter = 2;
+    string chatItem = 1;
+    int32 index = 2;
+}
+
+message BlabberRequest {
+    string blab = 1;
+}
+
+message BlabberResponse {
+    string blab = 1;
+    int32 index = 2;
 }
 
 /* Describes the response from a Ping call
@@ -112,6 +127,9 @@ service SimpleService {
     }
 
     rpc Chatter (ChatterRequest) returns (stream ChatterResponse) {
+    }
+
+    rpc Blabber (stream BlabberRequest) returns (stream BlabberResponse) {
     }
 
     rpc Ping (PingRequest) returns (PingResponse) {
