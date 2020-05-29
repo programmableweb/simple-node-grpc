@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+#do the usual install
+npm install
+
 #install grpc-tools
 npm install grpc-tools
 
