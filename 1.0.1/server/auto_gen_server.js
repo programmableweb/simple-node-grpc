@@ -1,20 +1,9 @@
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 let server;
-
-
-try {
-    const services = require('./code_autogen/simple_grpc_pb');
-} catch (e) {
-    const msg = `The required auto-generated file, simple_grpc_pb was not found in the expected folder,  ./code_autogen/`;
-    throw new Error(msg);
-}
-try {
+const services = require('./code_autogen/simple_grpc_pb');
 const messages = require('./code_autogen/simple_pb');
-} catch (e) {
-    const msg = `The required auto-generated file, simple_pb was not found in the expected folder,  ./code_autogen/`;
-    throw new Error(msg);
-}
+
 const PORT = process.env.PORT || 8080;
 
 //check to make sure the auto

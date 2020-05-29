@@ -5,6 +5,8 @@ npm install
 
 #install grpc-tools
 npm install grpc-tools
+npm install @grpc/grpc-js
+npm install google-protobuf
 
 #create the directory for the auto-generated files
 mkdir code_autogen
