@@ -15,6 +15,10 @@ const packageDefinition = protoLoader.loadSync(
     });
 const simple_proto = grpc.loadPackageDefinition(packageDefinition).simplegrpc;
 
+/* implementations of the JavaScript
+   functions add(), subtract(), multiply(), divide(),
+   chatter(), blabber() and ping()
+*/
 function add(call, callback) {
     const input = call.request.numbers;
     const result = input.reduce((a, b) => a + b, 0);
@@ -41,7 +45,6 @@ function divide(call, callback) {
 function ping(call, callback) {
     callback(null, {result: call.request.data} );
 }
-
 
 function chatter(call) {
     for(let i = 0; i< call.request.limit;i++){
