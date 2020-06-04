@@ -51,8 +51,8 @@ class SimpleServiceClient {
     }
 
     /*
-    @param message: The message to send into the client stream
-    @count count: The number of times to blab, [optional]. Default: Infinite
+    @option message: The message to send into the client stream
+    @option count: The number of times to blab, [optional]. Default: Infinite
      */
     blabber({message, count}, callback){
         let cnt = 0;
