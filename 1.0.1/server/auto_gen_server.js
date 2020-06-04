@@ -6,7 +6,12 @@ const messages = require('./code_autogen/simple_pb');
 
 const PORT = process.env.PORT || 8080;
 
-//check to make sure the auto
+/* This is a version of the gRPC server that uses
+  messages and methods auto-generated against the
+  gRPC .proto file using protoc.
+
+  The gRPC documentation refers to this a static binding.
+*/
 
 
 /* implementations of the JavaScript
@@ -63,8 +68,6 @@ function chatter(call) {
 }
 
 function blabber(call) {
-    let stoppedExternally = false;
-    const stopExternally = () => { stoppedExternally = true };
     let i = 0;
     call.on('data', function(data) {
         const phrase = data.getBlab();

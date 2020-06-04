@@ -101,7 +101,7 @@ const add = (arg) => {
         return;
     }
     const numbers = arr;
-    client.add(numbers, mathCallback);
+    client.add(numbers, mathCallback); //mathCallback is a function defined previously
 };
 
 const subtract = (arg) => {

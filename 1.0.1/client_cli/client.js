@@ -56,20 +56,33 @@ class SimpleServiceClient {
      */
     blabber({message, count}, callback){
         const config = {};
+        let stoppedIteration = false;
+        const stopIteration = () => { stoppedIteration = true };
+
         if(count){
-            config.iterations = count
+            //config.iterations = count
         }
         let cnt = 0;
         const stream = this.client.Blabber();
         stream.on('data', function (response) {
-            callback(null,JSON.stringify(response))
+            callback(null,JSON.stringify(response));
         });
+        stream.on('error', function (err) {
+            //Gobble the steam.cancel() error
+            if(err.message !== '1 CANCELLED: Cancelled')throw(err);
+        });
+
         const blab = async () => {
             stream.write({blab:message, index:cnt});
             cnt++;
         };
-        interval(async () => {
-            await blab()
+
+        interval(async (iteration, stop) => {
+            await blab();
+            if (iteration >  count) {
+                await stop();
+                await stream.cancel();
+            }
         }, 1000, config)
     }
 

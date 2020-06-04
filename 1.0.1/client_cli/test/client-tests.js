@@ -71,6 +71,22 @@ describe('Basic Client CLI Tests: ', () => {
         done();
     })
 
+    it('Can call Blabber on CLI with count', function (done) {
+        this.timeout(5000);
+        const operation = 'blabber';
+        const message = faker.lorem.words(4);
+        const cnt = 3;
+        shell.exec(`node ${filespec} -o ${operation} -m '${message}' -v -c ${cnt}`);
+        console.log('\n');
+        done();
+    });
+
+    it('Can show Version on CLI', function (done) {
+        shell.exec(`node ${filespec} --version`);
+        console.log('\n');
+        done();
+    })
+
     it('Can call Blabber on CLI', function (done) {
         const operation = 'blabber';
         const message = faker.lorem.words(4);
@@ -78,12 +94,7 @@ describe('Basic Client CLI Tests: ', () => {
         shell.exec(`node ${filespec} -o ${operation} -m '${message}' -v`);
         console.log('\n');
         done();
-    })
+    });
+})
 
-    it('Can show Version on CLI', function (done) {
-        shell.exec(`node ${filespec} --version`);
-        console.log('\n');
-        done();
-    })
-});
 

@@ -5,6 +5,16 @@ let server;
 const PROTO_PATH = process.cwd() + '/proto/simple.proto';
 const PORT = process.env.PORT || 8080;
 
+
+/* This is a version of the gRPC server that uses
+  messages and methods that are loaded at runtime
+  using protoLoader. protoLoader will ingest the gRPC
+  .proto file for this API and create messages and procedures
+  in JavaScript classes behind the scenes.
+
+  The gRPC documentation refers to this a dynamic binding.
+*/
+
 const packageDefinition = protoLoader.loadSync(
     PROTO_PATH,
     {keepCase: true,
@@ -55,8 +65,6 @@ function chatter(call) {
 }
 
 function blabber(call) {
-    let stoppedExternally = false;
-    const stopExternally = () => { stoppedExternally = true };
     let i = 0;
     call.on('data', function(data) {
         call.write({blab:data.blab.toUpperCase(), index:i});
