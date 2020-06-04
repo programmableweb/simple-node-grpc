@@ -12,15 +12,8 @@ const it = require('mocha').it;
 const after = require('mocha').after;
 const faker = require('faker');
 
-function mathCall (operation, numbers) {
-
-}
 
 describe('Basic Client CLI Tests: ', () => {
-   after(function() {
-        //server.forceShutdown();
-        //console.log({message: `gRPC server shutdown at ${new Date()}`})
-    });
     const filespec = process.cwd() + '/index.js';
 
     it('Can call Help on CLI', function (done) {
@@ -72,10 +65,10 @@ describe('Basic Client CLI Tests: ', () => {
     })
 
     it('Can call Blabber on CLI with count', function (done) {
-        this.timeout(5000);
+        this.timeout(8000);
         const operation = 'blabber';
         const message = faker.lorem.words(4);
-        const cnt = 3;
+        const cnt = 5;
         shell.exec(`node ${filespec} -o ${operation} -m '${message}' -v -c ${cnt}`);
         console.log('\n');
         done();
@@ -95,6 +88,6 @@ describe('Basic Client CLI Tests: ', () => {
         console.log('\n');
         done();
     });
-})
+});
 
 
